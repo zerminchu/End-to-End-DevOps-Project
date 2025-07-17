@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: hello-vs
+  namespace: default
+spec:
+  hosts:
+    - "*"
+  gateways:
+    - hello-gateway
+  http:
+    - match:
+        - uri:
+            prefix: "/"
+      route:
+        - destination:
+            host: hello-world
+            port:
+              number: 80

@@ -1,9 +1,9 @@
 resource "aws_route53_zone" "dns" {
-    name = "simha.in.net"
+    name = "test.appscloud.com"
 }
 
 resource "aws_acm_certificate" "ssl" {
-    domain_name = "simha.in.net"
+    domain_name = "test.appscloud.com"
     validation_method = "DNS"
     depends_on = [ aws_route53_zone.dns]
 }

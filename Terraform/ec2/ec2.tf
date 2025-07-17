@@ -5,7 +5,7 @@ resource "aws_instance" "ec2" {
     instance_type = var.instance_type
     subnet_id = slice(var.subnet_id, count.index, count.index+1)[0]
     vpc_security_group_ids = [aws_security_group.ec2_sg.id]
-    key_name = var.key
+    # key_name = var.key
     tags = {
         Name = var.ec2_name[count.index]
     }
@@ -13,7 +13,7 @@ resource "aws_instance" "ec2" {
 }
 
 resource "aws_iam_instance_profile" "jenkins_instance" {
-    name = "jenkins_instance"
+    name = "jenkins_instance_new"
     role = aws_iam_role.ec2_role.name
 }
 

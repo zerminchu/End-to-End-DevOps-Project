@@ -1,5 +1,5 @@
 resource "aws_iam_role" "ec2_role" {
-  name = "Terraform_jenkins_ec2roleforecr"
+  name = "tf_ec2_role"
 
   # Assume role policy is required, use the same policy used during original creation if available
   assume_role_policy = jsonencode({

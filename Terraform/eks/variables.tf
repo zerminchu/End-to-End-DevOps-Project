@@ -1,16 +1,18 @@
 variable "region" {
   default = "ap-southeast-1"
 }
+
 variable "eks_name" {
     default = "testing_k8s"
 }
 
-variable "sub_ids" {
-  type        = list(string)
+variable "subnet_id" { 
+    default = ["subnet-0bf6d526c3921623f", "subnet-06810573ce87e4c90" ]
 }
 
+
 variable "vpc_id" {
-  
+default= "vpc-03ef2d5b99ca1aedc" 
 }
 
 variable "node_name" {
@@ -37,6 +39,32 @@ variable "eks_ingress_rule" {
     cidr_block   = list(string)
     description  = string
   }))
+  default = {
+    "https" = {
+      port = 443
+      protocol = "tcp"
+      cidr_block = ["10.0.0.0/24"]
+      description = "HTTPS access for EKS API server"
+    }
+    "kubectl" = {
+      port = 6443
+      protocol = "tcp"
+      cidr_block = ["10.0.0.0/24"]
+      description = "Kubernetes API server"
+    }
+    "node_port_range" = {
+      port = 30000
+      protocol = "tcp"
+      cidr_block = ["10.0.0.0/24"]
+      description = "NodePort service range (30000-32767)"
+    }
+    "ingress_controller" = {
+      port = 80
+      protocol = "tcp"
+      cidr_block = ["10.0.0.0/24"]
+      description = "HTTP traffic for ingress controller"
+    }
+  }
 }
 
 variable "eks_cluster_policies" {
@@ -60,5 +88,4 @@ variable "eks_node_policies" {
     "arn:aws:iam::aws:policy/ElasticLoadBalancingFullAccess",
     "arn:aws:iam::aws:policy/AmazonEC2FullAccess"
   ]
-  
 }

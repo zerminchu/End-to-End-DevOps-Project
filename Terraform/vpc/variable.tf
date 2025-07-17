@@ -1,5 +1,5 @@
 variable "cidr_block" {
-  default = "10.0.0.0/16"
+  default = "10.0.0.0/24"
 }
 
 variable "vpc" {
@@ -26,6 +26,8 @@ variable "subnet_count" {
 }
 
 variable "cidr_block_subnet" {
+    # Splitting 10.0.0.0/24 into 3 subnets
+    # Each /26 subnet provides 64 IP addresses (59 usable)
     default = ["10.0.0.0/26", "10.0.0.64/26", "10.0.0.128/26"]
 }
 

@@ -4,7 +4,7 @@ provider "aws" {
 
 terraform {
     backend "s3" {
-        bucket = "terraform-devops-backend-file"
+        bucket = "tf-statezm"
         region = "ap-southeast-1"
         key = "terraform.tfstate"
         encrypt = true
