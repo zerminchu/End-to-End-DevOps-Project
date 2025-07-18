@@ -8,11 +8,11 @@ metadata:
 apiVersion: v1
 kind: Secret
 metadata:
+  annotations:
+    argocd.argoproj.io/tracking-id: test-app-0-1:/Secret:k8s-project/prometheus-sa-token
+    kubernetes.io/service-account.name: prometheus-sa
   name: prometheus-sa-token
   namespace: k8s-project
-  annotations:
-    kubernetes.io/service-account.name: prometheus-sa
-    argocd.argoproj.io/tracking-id: k8s-project:/Secret:k8s-project/prometheus-sa-token
 type: kubernetes.io/service-account-token
 
 ---
