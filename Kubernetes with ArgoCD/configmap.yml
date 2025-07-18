@@ -19,3 +19,4 @@ metadata:
   annotations:
     argocd.argoproj.io/tracking-id: test-app-0-1:/ConfigMap:/my-config
   name: my-config
+  namespace: default
