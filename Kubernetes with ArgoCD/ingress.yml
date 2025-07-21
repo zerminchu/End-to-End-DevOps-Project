@@ -76,12 +76,31 @@ subjects:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  annotations:
-    argocd.argoproj.io/tracking-id: k8s-project:/ConfigMap:k8s-project/my-config  # Updated
   name: my-config
-  namespace: k8s-project  # This will be set by kustomization
+  annotations:
+    argocd.argoproj.io/tracking-id: default:/ConfigMap:default/my-config
 data:
-  my-key: my-value
+  # Database configuration
+  MYSQL_DATABASE: "myapp_db"
+  DB_HOST: "mydb.default.svc.cluster.local"
+  DB_NAME: "myapp_db"
+  
+  # SQL initialization script
+  init.sql: |
+    CREATE DATABASE IF NOT EXISTS myapp_db;
+    USE myapp_db;
+    
+    CREATE TABLE IF NOT EXISTS users (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(100) NOT NULL,
+        email VARCHAR(100) UNIQUE NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+    
+    INSERT INTO users (name, email) VALUES 
+    ('John Doe', 'john@example.com'),
+    ('Jane Smith', 'jane@example.com')
+    ON DUPLICATE KEY UPDATE name=VALUES(name);
 
 ---
 apiVersion: kustomize.config.k8s.io/v1beta1
