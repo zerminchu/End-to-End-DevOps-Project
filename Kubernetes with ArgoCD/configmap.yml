@@ -10,3 +10,13 @@ resources:
   - appdeployment.yml
   - ingress.yml
   - prometheus-access.yml
+configMapGenerator:
+  - name: my-config
+    literals:
+      - MYSQL_DATABASE=myapp_db
+      - DB_HOST=mydb.default.svc.cluster.local
+      - DB_NAME=myapp_db
+    files:
+      - init.sql=init.sql
+    options:
+      disableNameSuffixHash: true

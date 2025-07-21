@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: myapp-ingress
-  namespace: default  # Changed from k8s-project
+  namespace: default
   annotations:
     alb.ingress.kubernetes.io/load-balancer-name: myapp-alb
     alb.ingress.kubernetes.io/scheme: internet-facing
@@ -33,7 +33,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: prometheus-sa
-  namespace: default  # Changed from k8s-project
+  namespace: default
 
 ---
 apiVersion: v1
@@ -43,7 +43,7 @@ metadata:
     argocd.argoproj.io/tracking-id: default:/Secret:default/prometheus-sa-token
     kubernetes.io/service-account.name: prometheus-sa
   name: prometheus-sa-token
-  namespace: default  # Changed from k8s-project
+  namespace: default
 type: kubernetes.io/service-account-token
 
 ---
@@ -70,7 +70,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: prometheus-sa
-    namespace: default  # Changed from k8s-project
+    namespace: default
 
 ---
 apiVersion: v1
@@ -82,3 +82,19 @@ metadata:
   namespace: k8s-project  # This will be set by kustomization
 data:
   my-key: my-value
+
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: default
+resources:
+  - appservice.yml
+  - configmap.yml
+  - dbservice.yml
+  - dbstatefullset.yml
+  - secret.yml
+  - appdeployment.yml
+  - ingress.yml
+  - prometheus-access.yml
+  - storageclass.yml
+  - svc_monitoring.yml
