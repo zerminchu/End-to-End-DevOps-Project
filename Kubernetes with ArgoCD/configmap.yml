@@ -1,22 +1,24 @@
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-namespace: default
-resources:
-  - appservice.yml
-  - configmap.yml
-  - dbservice.yml
-  - dbstatefullset.yml
-  - secret.yml
-  - appdeployment.yml
-  - ingress.yml
-  - prometheus-access.yml
-configMapGenerator:
-  - name: my-config
-    literals:
-      - MYSQL_DATABASE=myapp_db
-      - DB_HOST=mydb.default.svc.cluster.local
-      - DB_NAME=myapp_db
-    files:
-      - init.sql=init.sql
-    options:
-      disableNameSuffixHash: true
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-config
+  namespace: default
+data:
+  MYSQL_DATABASE: "myapp_db"
+  DB_HOST: "mydb.default.svc.cluster.local"
+  DB_NAME: "myapp_db"
+  init.sql: |
+    CREATE DATABASE IF NOT EXISTS myapp_db;
+    USE myapp_db;
+    
+    CREATE TABLE IF NOT EXISTS users (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(100) NOT NULL,
+        email VARCHAR(100) UNIQUE NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+    
+    INSERT INTO users (name, email) VALUES 
+    ('John Doe', 'john@example.com'),
+    ('Jane Smith', 'jane@example.com')
+    ON DUPLICATE KEY UPDATE name=VALUES(name);

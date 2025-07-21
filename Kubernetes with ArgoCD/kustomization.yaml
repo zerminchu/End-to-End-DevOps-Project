@@ -8,3 +8,7 @@ resources:
   - dbstatefullset.yml
   - secret.yml
   - appdeployment.yml
+  - ingress.yml
+  - prometheus-access.yml
+  - storageclass.yml
+  - svc_monitoring.yml
